@@ -30,18 +30,18 @@ class DETECTION(Structure):
                 ("classes", c_int), 
                 ("prob", POINTER(c_float)), #prob array의 확률
                 ("mask", POINTER(c_float)), #mask 정보
-                ("objectness", c_float), #객체를 포함하고 있을 가능성(objectness)
+                ("objectness", c_float), #객체를 포함하고 있을 가능성(objectness), confidence score
                 ("sort_class", c_int)] #class 분류
 
 
 class IMAGE(Structure): 
     _fields_ = [("w", c_int), #w는 너비
                 ("h", c_int), #h는 높이
-                ("c", c_int), #c는 confidence(신뢰도)
+                ("c", c_int), #c는 centroid
                 ("data", POINTER(c_float))] #data 정보
 
-class METADATA(Structure):
-    _fields_ = [("classes", c_int),
+class METADATA(Structure): #METADATA는 데이터에 관하여 구조화 된 데이터로 다른 데이터를 설명한다.
+    _fields_ = [("classes", c_int), #class의 수와 이름
                 ("names", POINTER(c_char_p))]
 
     
