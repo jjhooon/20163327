@@ -58,6 +58,7 @@ BDD는 Berkeley Deep Drive의 약자로 BDD100K는 10만 개의 비디오로 구
 BDD100K의 benchmark는 image tagging, lane detection, driveable area segmentation, road object detection, semantic segmentation, instance segmentation, multi-object tracking, domain adaption, imitation learning의 10가지 task들로 구성되어 있다. 이 중 몇 가지 task에 대해 자세히 살펴보자.
 
 ① Lane Marking
+
 BDD100K는 차선 내의 차량을 어떻게 지시하는지에 따라 두 가지로 lane marking을 하였다. 차량의 운전 방향을 의미하는 수직 차선은 적색으로 표시하였고, 차량이 멈춰야하는 차선을 의미하는 수평 차선은 청색으로 표시하였다. 
 
 ![image](https://user-images.githubusercontent.com/81551992/113827255-0d70aa80-97be-11eb-9c81-a3bc43df8dc3.png)
@@ -65,15 +66,18 @@ BDD100K는 차선 내의 차량을 어떻게 지시하는지에 따라 두 가�
 <그림 8> Lane Marking
 
 ② Road Object Detection
+
 BDD100K는 버스, 신호등, 교통 표지판, 자전거, 트럭, 오토바이, 자동차, 기차, 사람, 라이더를 위한 10만 개의 키프레임에 2D Bounding Box와 라벨이 달려있다. 이전의 다른 dataset에 비해 보행자에 대한 정보가 많기 때문에 보행자 검출 및 회피를 위하여 BDD100K를 활용할 수 있다.
 
 ③ Driveable Area
+
 차선이 명확하지 않은 경우도 있기 때문에 차선만으로 차량의 주행 여부를 판단하기는 불충분하다. 이에, 운전 가능 지역을 구분할 수 있는 것이 좋다, 운전 가능 지역은 directly driveable area와 alternatively drive area로 구분할 수 있다. Directly driveable area는 현재 주행 중인 경로로 적색으로 표시하고, alternatively drive area는 대체 주행이 가능한 경로로 청색으로 표시한다. 
 
 ![image](https://user-images.githubusercontent.com/81551992/113827274-1497b880-97be-11eb-9197-8653c1df7b26.png)
 
 <그림 9> Driveable Area
 ④ Semantic Instance Segmentation
+
 전체 dataset으로부터 무작위 샘플링 된 1만 개의 각각의 비디오로부터 얻어진 이미지에 대하여 픽셀 레벨의 세분화(fine-grained)된 라벨을 제공한다. 각각의 픽셀에는 이미지의 객체 라벨의 instance 번호를 나타내는 식별자와 라벨이 주어진다. 많은 클래스들은 instance로 나눠질 수 없기 때문에 클래스 라벨의 작은 부분 집합에만 instance 식별자가 할당된다. 전체 라벨 셋은 각 이미지의 라벨 픽셀 수를 최대화할 뿐만 아니라, 도로 환경에서의 객체의 다양성을 포착하는 선택된 40개의 객체 클래스로 구성된다.
 
 ![image](https://user-images.githubusercontent.com/81551992/113827305-1eb9b700-97be-11eb-91fe-c8cd9decbf46.png)
@@ -98,12 +102,15 @@ nuScenes dataset은 주행 및 교통 상황이 까다로운 Boston과 Singapore
 nuScenes를 이용한 task는 detection&tracking, prediction, lidar segmentation 크게 네 가지로 나눌 수 있다. 각 task에 대해 간단히 설명하면 다음과 같다.
 
 ① Detection & tracking
+
 nuScenes을 이용한 3D obeject detection task이다. 이 task의 목표는 각 set의 특성 및 속도 vector의 추정뿐만 아니라 서로 다른 10개의 카테고리에 3D bounding box를 두는 것이다. nuScenes의 23개의 class 중, 비슷한 것은 묶고 거의 없는 class에 대해서는 버림으로서 10개의 클래스를 이용한다. 예를 들어, 오토바이/트럭/버스/자동차는 vehicle이라는 하나의 클래스로 묶는 것이다. Detection 결과들은 2Hz keyfame 단위로 평가되며 train/validation/test set 모두 json 형태로 저장된다. Task의 평가 metrics로는 mAP, TP 성능 지표를 활용한다. Tracking은 detection에서 자연스레 이어지는 과정이다. 잘 알려진 detection 알고리즘으로부터 얻어진 object를 시간 따라 tracking하는 것이다. camera, lidar, radar센서를 이용하여 3D multi object tracking을 진행하고, online tracking을 실시한다. 즉, 미래의 센서 data는 활용하지 못하고 과거와 현재 데이터만을 이용하여 진행하는 task이다. 다양한 평가 metrics가 있지만, challenge의 우승자는 ‘AMOTA’를 사용하였다. ‘AMOTA’는 average multi object tracking accuracy의 약자로 각각 다른 recall thresholds에서 false positives, missed targets, identity switches 세 가지 error를 조합한 ‘MOTA’를 평균 내는 방식이다. 
 
 ② Prediction
+
 nuScenes prediction task의 목표는 nuScenes dataset에서 object의 미래 경로를 예측하는 것이다. Task의 평가 metrics로는 세 가지를 사용한다. 첫째, 예측된 경로와 ground_truth 상의 point들 사이의 L2(유클리디안) 거리를 평균 내는 ‘minADE_k’이다. 둘째, 예측된 경로와 ground_truth의 최종 목표 지점 사이의 거리를 이용하는 ‘minFDE_k'이다. 마지막으로, 예측된 경로와 grount_truth의 L2 거리의 최댓값이 2m보다 크다면 예측에 실패했다고 정의한다.
 
 ③ Lidar segmentation
+
 nuScenes lidar segmentation은 앞서 언급하였던 nuScenes-lidarseg를 이용한다. 이 task의 목표는 point clouds set의 모든 point에 대하여 카테고리를 예측하는 것이다. 카테고리는 nuScnes-lidarseg의 32개 sematic label(class)중에서 detection 할 때와 유사한 방식으로 구분하여 10개의 foreground class와 6개의 background class로 총 16개로 구성되어 있다. 결과는 point cloud의 point label을 담고 있는 bin형식의 파일과 json 형식의 파일로 구성된다. Task의 평가 metrics로는 mean intersection-over-union(mIOU)를 사용한다. 
 
 이처럼, 다양한 센서 데이터와 task를 가진 nuScenes dataset은 꾸준히 이용되고 있다. 2019년 3월, nuScenes 공개 이후 수많은 사람이 이를 이용하여 기술 개발을 진행해왔으며 250개 이상의 논문에서 dataset을 이용하였다. 그 후 nuScenes-lidarseg을 공개하여 부족하다고 평가 받던 LiDAR 부분을 보강하면서 높은 레벨의 자율주행 상용화를 앞당기는데 큰 역할을 할 것으로 예상된다. 
