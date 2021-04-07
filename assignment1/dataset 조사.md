@@ -78,6 +78,7 @@ BDD100K는 버스, 신호등, 교통 표지판, 자전거, 트럭, 오토바이,
 ![image](https://user-images.githubusercontent.com/81551992/113827274-1497b880-97be-11eb-9197-8653c1df7b26.png)
 
 <그림 9> Driveable Area
+
 ④ Semantic Instance Segmentation
 
 전체 dataset으로부터 무작위 샘플링 된 1만 개의 각각의 비디오로부터 얻어진 이미지에 대하여 픽셀 레벨의 세분화(fine-grained)된 라벨을 제공한다. 각각의 픽셀에는 이미지의 객체 라벨의 instance 번호를 나타내는 식별자와 라벨이 주어진다. 많은 클래스들은 instance로 나눠질 수 없기 때문에 클래스 라벨의 작은 부분 집합에만 instance 식별자가 할당된다. 전체 라벨 셋은 각 이미지의 라벨 픽셀 수를 최대화할 뿐만 아니라, 도로 환경에서의 객체의 다양성을 포착하는 선택된 40개의 객체 클래스로 구성된다.
